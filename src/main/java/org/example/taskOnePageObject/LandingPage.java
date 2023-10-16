@@ -1,4 +1,4 @@
-package org.example.mainPageObject;
+package org.example.taskOnePageObject;
 
 import org.example.basePageObject.BasePageObjectClass;
 import org.openqa.selenium.By;

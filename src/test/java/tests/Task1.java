@@ -1,13 +1,19 @@
 package tests;
 
 import baseTest.TestBaseUI;
-import org.example.mainPageObject.ContactUsPage;
-import org.example.mainPageObject.LandingPage;
+import org.example.taskOnePageObject.ContactUsPage;
+import org.example.taskOnePageObject.LandingPage;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
 public class Task1 extends TestBaseUI {
+    @BeforeMethod(alwaysRun = true)
+    public void browserSetup() {
+        browserInitialization("chrome");
+    }
+
 
     @Test(description = "1. Check that Title is correct")
     public void checkTitle() {
