@@ -47,12 +47,12 @@ public class Task1 extends TestBaseUI {
         LandingPage landingPage = new LandingPage(driver);
         landingPage.openHomePage()
         .jsExecutor().executeScript("window.scrollBy(0,document.body.scrollHeight)");
-        softAssert().assertEquals(landingPage.policiesInvestors.getText(),"INVESTORS","Policy is not correct");
-        softAssert().assertEquals(landingPage.policiesCookie.getText(),"COOKIE POLICY","Policy is not correct");
-        softAssert().assertEquals(landingPage.policiesOpenSource.getText(),"OPEN SOURCE","Policy is not correct");
-        softAssert().assertEquals(landingPage.policiesApplicant.getText(),"APPLICANT PRIVACY NOTICE","Policy is not correct");
-        softAssert().assertEquals(landingPage.policiesPrivacy.getText(),"PRIVACY POLICY","Policy is not correct");
-        softAssert().assertEquals(landingPage.policiesAccessibility.getText(),"WEB ACCESSIBILITY","Policy is not correct");
+        Assert.assertEquals(landingPage.policiesInvestors.getText(),"INVESTORS","Policy is not correct");
+        Assert.assertEquals(landingPage.policiesCookie.getText(),"COOKIE POLICY","Policy is not correct");
+        Assert.assertEquals(landingPage.policiesOpenSource.getText(),"OPEN SOURCE","Policy is not correct");
+        Assert.assertEquals(landingPage.policiesApplicant.getText(),"APPLICANT PRIVACY NOTICE","Policy is not correct");
+        Assert.assertEquals(landingPage.policiesPrivacy.getText(),"PRIVACY POLICY","Policy is not correct");
+        Assert.assertEquals(landingPage.policiesAccessibility.getText(),"WEB ACCESSIBILITY","Policy is not correct");
     }
 
     @Test(description = "5. Check possibility to switch locations")
@@ -61,11 +61,11 @@ public class Task1 extends TestBaseUI {
         landingPage.openHomePage()
                 .acceptCookies()
                 .scrollToElementToCenter(landingPage.locationSection);
-        softAssert().assertEquals(landingPage.returnActiveLocation(), landingPage.locationAmericas.getText(),"Default location is not correct");
+        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationAmericas.getText(),"Default location is not correct");
         landingPage.selectLocation("EMEA");
-        softAssert().assertEquals(landingPage.returnActiveLocation(), landingPage.locationEmea.getText(),"Active location is not" + landingPage.locationEmea.getText() + "!");
+        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationEmea.getText(),"Active location is not" + landingPage.locationEmea.getText() + "!");
         landingPage.selectLocation("APAC");
-        softAssert().assertEquals(landingPage.returnActiveLocation(), landingPage.locationApac.getText(),"Active location is not" + landingPage.locationApac.getText() + "!");
+        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationApac.getText(),"Active location is not" + landingPage.locationApac.getText() + "!");
     }
 
     @Test(description = "6. Check that user can perform search and see results")
@@ -88,12 +88,12 @@ public class Task1 extends TestBaseUI {
         contactUsPage.openContactUsPage()
                 .scrollToElementToCenter(contactUsPage.submitFormButton)
                 .submitForm();
-        softAssert().assertEquals(contactUsPage.firstNameField.getAttribute("aria-invalid"), "true", "First Name field has no validation");
-        softAssert().assertEquals(contactUsPage.lastNameField.getAttribute("aria-invalid"), "true", "Last Name field has no validation");
-        softAssert().assertEquals(contactUsPage.emailField.getAttribute("aria-invalid"), "true", "Email field has no validation");
-        softAssert().assertEquals(contactUsPage.phoneField.getAttribute("aria-invalid"), "true", "Phone field has no validation");
-        softAssert().assertEquals(contactUsPage.comboboxRequired.getAttribute("aria-invalid"), "true", "Combobox has no validation");
-        softAssert().assertEquals(contactUsPage.privacyAccept.getAttribute("aria-invalid"), "true", "Checkbox has no validation");
+        Assert.assertEquals(contactUsPage.firstNameField.getAttribute("aria-invalid"), "true", "First Name field has no validation");
+        Assert.assertEquals(contactUsPage.lastNameField.getAttribute("aria-invalid"), "true", "Last Name field has no validation");
+        Assert.assertEquals(contactUsPage.emailField.getAttribute("aria-invalid"), "true", "Email field has no validation");
+        Assert.assertEquals(contactUsPage.phoneField.getAttribute("aria-invalid"), "true", "Phone field has no validation");
+        Assert.assertEquals(contactUsPage.comboboxRequired.getAttribute("aria-invalid"), "true", "Combobox has no validation");
+        Assert.assertEquals(contactUsPage.privacyAccept.getAttribute("aria-invalid"), "true", "Checkbox has no validation");
     }
 
     @Test(description = "8. Check that logo redirects to main page")
@@ -102,7 +102,7 @@ public class Task1 extends TestBaseUI {
         contactUsPage.openAboutUsPage()
                 .clickOnLogo();
         String currentUrl = driver.getCurrentUrl();
-        softAssert().assertEquals(currentUrl, "https://epam.com", "URL is not correct");
+        Assert.assertEquals(currentUrl, "https://epam.com", "URL is not correct");
     }
 
     @Test(description = "9. Check availability to download a file")

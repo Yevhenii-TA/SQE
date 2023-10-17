@@ -65,6 +65,4 @@ public class ContactUsPage extends BasePageObjectClass
         return this;
     }
 
-
-
 }

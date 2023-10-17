@@ -29,7 +29,6 @@ public class LoginForm extends BasePageObjectClass {
     }
     public LoginForm loginToShop() {
         loginButton.click();
-        waitSeconds(2);
         return this;
     }
 }

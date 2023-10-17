@@ -43,9 +43,5 @@ public class TestBaseUI {
         driver.quit();
         driver = null;
     }
-    public SoftAssert softAssert() {
-        SoftAssert softAssert = new SoftAssert();
-        return softAssert;
-    }
 
 }

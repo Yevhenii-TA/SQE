@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -54,6 +55,20 @@ public class BasePageObjectClass {
             }
         }
         return downloadedFile.exists();
+    }
+    public Select performSelectAction(WebElement element) {
+        Select select = new Select(element);
+        return select;
+    }
+    public BasePageObjectClass waitUntilElementContainsText(long seconds, String text, WebElement element) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+        return this;
+    }
+    public BasePageObjectClass waitUntilElementVisible(long seconds, WebElement element) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.visibilityOf(element));
+        return this;
     }
 
 }

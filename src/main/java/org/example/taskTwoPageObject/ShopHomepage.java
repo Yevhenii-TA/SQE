@@ -14,10 +14,20 @@ public class ShopHomepage extends BasePageObjectClass {
     //region Selectors
     @FindBy(xpath = "//*[@href='/register']")
     private WebElement registrationButton;
-    @FindBy(xpath = "//*[@class='account']")
+    @FindBy(xpath = "//*[@class='header-links']//*[@class='account']")
     public WebElement loggedAccount;
     @FindBy(xpath = "//*[@href='/login']")
     private WebElement loginButton;
+    @FindBy(xpath = "//*[@href='/computers']")
+    private WebElement computersSection;
+    @FindBy(xpath = "//*[@href='/desktops']")
+    public WebElement desktopsCategory;
+    @FindBy(xpath = "//*[@href='/notebooks']")
+    public WebElement notebooksCategory;
+    @FindBy(xpath = "//*[@href='/accessories']")
+    public WebElement accessoriesCategory;
+    @FindBy(xpath = "//*[@href='/apparel-shoes']")
+    public WebElement shoesCategory;
     //endregion
 
     public ShopHomepage openShopHomepage() {
@@ -33,7 +43,13 @@ public class ShopHomepage extends BasePageObjectClass {
         loginButton.click();
         return this;
     }
-
-
-
+    public ShopHomepage hoverOverComputersSection() {
+        performActions().moveToElement(computersSection).perform();
+        return this;
+    }
+    public ShopHomepage goToShoesCategory () {
+        shoesCategory.click();
+        waitPageIsLoaded(3);
+        return this;
+    }
 }

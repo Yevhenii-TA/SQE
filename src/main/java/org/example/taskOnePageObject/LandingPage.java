@@ -56,6 +56,8 @@ public class LandingPage extends BasePageObjectClass {
     public WebElement locationApac;
     @FindBy(xpath = "//*[@class='js-tabs-controls']")
     public WebElement locationSection;
+    @FindBy(xpath = "//*[contains(@class,'tabs-23__link')]")
+    private WebElement getAllLocations;
     //endregion
 
     public LandingPage openHomePage() {
