@@ -1,6 +1,7 @@
 package org.example.taskThree;
 
 public class User {
+    public static final String CREATE_USER_ENDPOINT = "/user";
     private Integer id;
     private String username;
     private String firstName;
