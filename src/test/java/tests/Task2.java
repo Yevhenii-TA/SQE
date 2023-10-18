@@ -5,9 +5,6 @@ import org.example.taskTwoPageObject.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
-
-import java.util.Comparator;
 import java.util.List;
 
 public class Task2 extends TestBaseUI {
@@ -56,7 +53,7 @@ public class Task2 extends TestBaseUI {
     }
 
     @Test(description = "4. Verify that allows sorting items (different options)")
-    public void checkSorting() throws InterruptedException {
+    public void checkSorting() {
         ShopHomepage shopHomepage = new ShopHomepage(driver);
         ShoesCategoryPage shoesCategoryPage = new ShoesCategoryPage(driver);
         shopHomepage.openShopHomepage()
@@ -71,6 +68,8 @@ public class Task2 extends TestBaseUI {
         Assert.assertEquals(shoesCategoryPage.getListOfProductPrices(), shoesCategoryPage.sortPriceToLow(originalOrderOfPrices), "Price sorting to Low is not correct");
         /* Check sorting by product name - ASC/DESC */
         shoesCategoryPage.selectSortingByNameASC();
+        System.out.println(shoesCategoryPage.getListOfProductNames());
+        System.out.println(shoesCategoryPage.sortNameASC(originalOrderOfNames));
         Assert.assertEquals(shoesCategoryPage.getListOfProductNames(), shoesCategoryPage.sortNameASC(originalOrderOfNames), "ASC ordering is not correct");
         shoesCategoryPage.selectSortingByNameDESC();
         Assert.assertEquals(shoesCategoryPage.getListOfProductNames(), shoesCategoryPage.sortNameDesc(originalOrderOfNames), "DESC ordering is not correct");
