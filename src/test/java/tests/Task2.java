@@ -5,6 +5,10 @@ import org.example.taskTwoPageObject.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import java.util.Comparator;
+import java.util.List;
 
 public class Task2 extends TestBaseUI {
 
@@ -52,11 +56,24 @@ public class Task2 extends TestBaseUI {
     }
 
     @Test(description = "4. Verify that allows sorting items (different options)")
-    public void checkSorting() {
+    public void checkSorting() throws InterruptedException {
         ShopHomepage shopHomepage = new ShopHomepage(driver);
+        ShoesCategoryPage shoesCategoryPage = new ShoesCategoryPage(driver);
         shopHomepage.openShopHomepage()
-                .hoverOverComputersSection();
-
+                .goToShoesCategory();
+        shoesCategoryPage.selectNumberOfItems("12");
+        List<Float> originalOrderOfPrices = shoesCategoryPage.getListOfProductPrices();
+        List<String> originalOrderOfNames = shoesCategoryPage.getListOfProductNames();
+        /* Check sorting by product price - To high/To low */
+        shoesCategoryPage.selectSortingByPriceToHigh();
+        Assert.assertEquals(shoesCategoryPage.getListOfProductPrices(), shoesCategoryPage.sortPriceToHigh(originalOrderOfPrices), "Price sorting to High is not correct");
+        shoesCategoryPage.selectSortingByPriceToLow();
+        Assert.assertEquals(shoesCategoryPage.getListOfProductPrices(), shoesCategoryPage.sortPriceToLow(originalOrderOfPrices), "Price sorting to Low is not correct");
+        /* Check sorting by product name - ASC/DESC */
+        shoesCategoryPage.selectSortingByNameASC();
+        Assert.assertEquals(shoesCategoryPage.getListOfProductNames(), shoesCategoryPage.sortNameASC(originalOrderOfNames), "ASC ordering is not correct");
+        shoesCategoryPage.selectSortingByNameDESC();
+        Assert.assertEquals(shoesCategoryPage.getListOfProductNames(), shoesCategoryPage.sortNameDesc(originalOrderOfNames), "DESC ordering is not correct");
     }
 
     @Test(description = "5. Verify that allows changing number of items on page")
