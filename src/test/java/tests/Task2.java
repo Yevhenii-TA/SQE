@@ -21,9 +21,9 @@ public class Task2 extends TestBaseUI {
         shopHomepage.openShopHomepage()
                 .goToRegistrationForm();
         registrationForm.selectGender("male")
-                .enterFirstName("vasya")
-                .enterLastName("pupkin")
-                .enterEmail("vasya@pup.kinasqqq")
+                .enterFirstName("vasdfsyadf")
+                .enterLastName("pupkifgdn")
+                .enterEmail("vagfggsssya@pup.kinasqqq")
                 .enterPassword("qweqwe")
                 .enterConfirmPassword("qweqwe")
                 .registerAccount();

@@ -14,7 +14,6 @@ public class Task1 extends TestBaseUI {
         browserInitialization("chrome");
     }
 
-
     @Test(description = "1. Check that Title is correct")
     public void checkTitle() {
         LandingPage landingPage = new LandingPage(driver);
@@ -46,13 +45,13 @@ public class Task1 extends TestBaseUI {
     public void checkPolicies() {
         LandingPage landingPage = new LandingPage(driver);
         landingPage.openHomePage()
-        .jsExecutor().executeScript("window.scrollBy(0,document.body.scrollHeight)");
-        Assert.assertEquals(landingPage.policiesInvestors.getText(),"INVESTORS","Policy is not correct");
-        Assert.assertEquals(landingPage.policiesCookie.getText(),"COOKIE POLICY","Policy is not correct");
-        Assert.assertEquals(landingPage.policiesOpenSource.getText(),"OPEN SOURCE","Policy is not correct");
-        Assert.assertEquals(landingPage.policiesApplicant.getText(),"APPLICANT PRIVACY NOTICE","Policy is not correct");
-        Assert.assertEquals(landingPage.policiesPrivacy.getText(),"PRIVACY POLICY","Policy is not correct");
-        Assert.assertEquals(landingPage.policiesAccessibility.getText(),"WEB ACCESSIBILITY","Policy is not correct");
+                .jsExecutor().executeScript("window.scrollBy(0,document.body.scrollHeight)");
+        Assert.assertEquals(landingPage.policiesInvestors.getText(), "INVESTORS", "Policy is not correct");
+        Assert.assertEquals(landingPage.policiesCookie.getText(), "COOKIE POLICY", "Policy is not correct");
+        Assert.assertEquals(landingPage.policiesOpenSource.getText(), "OPEN SOURCE", "Policy is not correct");
+        Assert.assertEquals(landingPage.policiesApplicant.getText(), "APPLICANT PRIVACY NOTICE", "Policy is not correct");
+        Assert.assertEquals(landingPage.policiesPrivacy.getText(), "PRIVACY POLICY", "Policy is not correct");
+        Assert.assertEquals(landingPage.policiesAccessibility.getText(), "WEB ACCESSIBILITY", "Policy is not correct");
     }
 
     @Test(description = "5. Check possibility to switch locations")
@@ -61,11 +60,11 @@ public class Task1 extends TestBaseUI {
         landingPage.openHomePage()
                 .acceptCookies()
                 .scrollToElementToCenter(landingPage.locationSection);
-        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationAmericas.getText(),"Default location is not correct");
+        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationAmericas.getText(), "Default location is not correct");
         landingPage.selectLocation("EMEA");
-        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationEmea.getText(),"Active location is not" + landingPage.locationEmea.getText() + "!");
+        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationEmea.getText(), "Active location is not" + landingPage.locationEmea.getText() + "!");
         landingPage.selectLocation("APAC");
-        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationApac.getText(),"Active location is not" + landingPage.locationApac.getText() + "!");
+        Assert.assertEquals(landingPage.returnActiveLocation(), landingPage.locationApac.getText(), "Active location is not" + landingPage.locationApac.getText() + "!");
     }
 
     @Test(description = "6. Check that user can perform search and see results")
@@ -78,7 +77,7 @@ public class Task1 extends TestBaseUI {
         if (landingPage.searchResults.isDisplayed() == true) {
             Assert.assertTrue(true);
         } else {
-            Assert.assertTrue(false,"Search results were not shown");
+            Assert.assertTrue(false, "Search results were not shown");
         }
     }
 
@@ -102,7 +101,7 @@ public class Task1 extends TestBaseUI {
         contactUsPage.openAboutUsPage()
                 .clickOnLogo();
         String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, "https://epam.com", "URL is not correct");
+        Assert.assertEquals(currentUrl, "https://www.epam.com/", "URL is not correct");
     }
 
     @Test(description = "9. Check availability to download a file")
@@ -110,8 +109,7 @@ public class Task1 extends TestBaseUI {
         ContactUsPage contactUsPage = new ContactUsPage(driver);
         contactUsPage.openAboutUsPage()
                 .scrollToElementToCenter(contactUsPage.downloadReportButton)
-                .downloadReport()
-                .waitSeconds(10);
+                .downloadReport();
         boolean downloadSuccess = contactUsPage.checkDownloadedFile("EPAM_Corporate_Overview_2023.pdf");
         Assert.assertTrue(downloadSuccess, "Download was not completed or file name is not correct");
 

@@ -52,6 +52,7 @@ public class ContactUsPage extends BasePageObjectClass
                 + "var elementTop = arguments[0].getBoundingClientRect().top;"
                 + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
         jsExecutor().executeScript(scrollElementIntoMiddle, element);
+        waitSeconds(3);
         return this;
     }
     public ContactUsPage clickOnLogo() {
@@ -62,6 +63,7 @@ public class ContactUsPage extends BasePageObjectClass
     public ContactUsPage downloadReport() {
         waitButtonClickable(3,downloadReportButton);
         downloadReportButton.click();
+        waitSeconds(10);
         return this;
     }
 
