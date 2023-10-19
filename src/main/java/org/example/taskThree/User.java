@@ -2,6 +2,10 @@ package org.example.taskThree;
 
 public class User {
     public static final String CREATE_USER_ENDPOINT = "/user";
+    public static final String GET_USER_ENDPOINT = "/user/";
+    public static final String LOGIN_USER_ENDPOINT = "/user/login";
+    public static final String LOGOUT_USER_ENDPOINT = "/user/logout";
+    public static final String CREATE_USER_LIST_ENDPOINT = "/user/createWithList";
     private Integer id;
     private String username;
     private String firstName;
