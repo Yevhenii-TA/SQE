@@ -1,6 +1,7 @@
-package org.example.taskTwoPageObject;
+package org.example.pageObject.taskTwo;
 
-import org.example.basePageObject.BasePageObjectClass;
+import org.example.BasePageObjectClass;
+import org.example.ConfigReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,24 +16,24 @@ public class ShopHomepage extends BasePageObjectClass {
     @FindBy(xpath = "//*[@href='/register']")
     private WebElement registrationButton;
     @FindBy(xpath = "//*[@class='header-links']//*[@class='account']")
-    public WebElement loggedAccount;
+    private WebElement loggedAccount;
     @FindBy(xpath = "//*[@href='/login']")
     private WebElement loginButton;
     @FindBy(xpath = "//*[@href='/computers']")
     private WebElement computersSection;
     @FindBy(xpath = "//*[@href='/desktops']")
-    public WebElement desktopsCategory;
+    private WebElement desktopsCategory;
     @FindBy(xpath = "//*[@href='/notebooks']")
-    public WebElement notebooksCategory;
+    private WebElement notebooksCategory;
     @FindBy(xpath = "//*[@href='/accessories']")
-    public WebElement accessoriesCategory;
+    private WebElement accessoriesCategory;
     @FindBy(xpath = "//*[@href='/apparel-shoes']")
-    public WebElement shoesCategory;
+    private WebElement shoesCategory;
     //endregion
 
     public ShopHomepage openShopHomepage() {
-        driver.get("https://demowebshop.tricentis.com/");
-        waitPageIsLoaded(5);
+        driver.get(ConfigReader.getProperty("ShopHomePage"));
+        waitPageLoaded();
         return this;
     }
     public ShopHomepage goToRegistrationForm() {
@@ -44,12 +45,23 @@ public class ShopHomepage extends BasePageObjectClass {
         return this;
     }
     public ShopHomepage hoverOverComputersSection() {
-        performActions().moveToElement(computersSection).perform();
+        actions.moveToElement(computersSection).perform();
         return this;
     }
     public ShopHomepage goToShoesCategory () {
         shoesCategory.click();
-        waitPageIsLoaded(3);
         return this;
+    }
+    public String getLoggedInEmail() {
+        return loggedAccount.getText();
+    }
+    public String getCategoryAccessoriesName() {
+        return accessoriesCategory.getText();
+    }
+    public String getCategoryNotebookName() {
+        return notebooksCategory.getText();
+    }
+    public String getCategoryDesktopName() {
+        return desktopsCategory.getText();
     }
 }

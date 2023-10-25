@@ -1,9 +1,8 @@
-package org.example.taskThree.PetRequest;
+package org.example.pageObject.taskThree;
 
 import java.util.List;
 
 public class PetRequest {
-    public static final String CREATE_PET_ENDPOINT = "/pet";
     private long id;
     private PetCategory category;
     private String name;
@@ -12,48 +11,46 @@ public class PetRequest {
     private String status;
 
     public PetRequest() {}
-    public PetRequest(long id, PetCategory category, String name, List<String> photoUrls, List<PetTags> tags, String status) {
-        this.id = id;
-        this.category = category;
-        this.name = name;
-        this.photoUrls = photoUrls;
-        this.tags = tags;
-        this.status = status;
-    }
     public long getId() {
         return id;
     }
-    public void setId(long id) {
+    public PetRequest setId(long id) {
         this.id = id;
+        return this;
     }
     public PetCategory getCategory() {
         return category;
     }
-    public void setPetCategory(PetCategory category) {
+    public PetRequest setPetCategory(PetCategory category) {
         this.category = category;
+        return this;
     }
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public PetRequest setName(String name) {
         this.name = name;
+        return this;
     }
     public List<String> getPhotoUrls() {
         return photoUrls;
     }
-    public void setPhotoUrls(List<String> photoUrls) {
+    public PetRequest setPhotoUrls(List<String> photoUrls) {
         this.photoUrls = photoUrls;
+        return this;
     }
     public List<PetTags> getTags() {
         return tags;
     }
-    public void setTags(List<PetTags> tags) {
+    public PetRequest setTags(List<PetTags> tags) {
         this.tags = tags;
+        return this;
     }
     public String getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public PetRequest setStatus(String status) {
         this.status = status;
+        return this;
     }
 }

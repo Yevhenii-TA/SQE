@@ -1,7 +1,8 @@
 package tests;
 
 import baseTest.TestBaseUI;
-import org.example.taskTwoPageObject.*;
+import org.example.ConfigReader;
+import org.example.pageObject.taskTwo.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,13 +22,13 @@ public class Task2 extends TestBaseUI {
         shopHomepage.openShopHomepage()
                 .goToRegistrationForm();
         registrationForm.selectGender("male")
-                .enterFirstName("vasdfsyadf")
-                .enterLastName("pupkifgdn")
-                .enterEmail("vagfggsssya@pup.kinasqqq")
-                .enterPassword("qweqwe")
-                .enterConfirmPassword("qweqwe")
+                .enterFirstName(ConfigReader.getProperty("ShopFirstName"))
+                .enterLastName(ConfigReader.getProperty("ShopLastName"))
+                .enterEmail(ConfigReader.getProperty("ShopEmail"))
+                .enterPassword(ConfigReader.getProperty("ShopPassword"))
+                .enterConfirmPassword(ConfigReader.getProperty("ShopPassword"))
                 .registerAccount();
-        Assert.assertEquals(registrationForm.registrationConfirmation.getText(), "Your registration completed", "Registration was not successful");
+        Assert.assertEquals(registrationForm.getRegistrationConfirmationMessage(), ConfigReader.getProperty("RegistrationConfirmationMessage"), "Registration was not successful");
     }
 
     @Test(description = "2. Verify that allows login as a User")
@@ -36,10 +37,10 @@ public class Task2 extends TestBaseUI {
         LoginForm loginForm = new LoginForm(driver);
         shopHomepage.openShopHomepage()
                 .goToLoginForm();
-        loginForm.enterEmail("test@qwwwsdfasdfd.com")
-                .enterPassword("asdasd")
+        loginForm.enterEmail(ConfigReader.getProperty("ShopLoginEmail"))
+                .enterPassword(ConfigReader.getProperty("ShopLoginPassword"))
                 .loginToShop();
-        Assert.assertEquals(shopHomepage.loggedAccount.getText(), "test@qwwwsdfasdfd.com", "Login was not successful!");
+        Assert.assertEquals(shopHomepage.getLoggedInEmail(), ConfigReader.getProperty("ShopLoginEmail"), "Login was not successful!");
     }
 
     @Test(description = "3. Verify that ‘Computers’ group has 3 sub-groups with correct names")
@@ -47,9 +48,9 @@ public class Task2 extends TestBaseUI {
         ShopHomepage shopHomepage = new ShopHomepage(driver);
         shopHomepage.openShopHomepage()
                 .hoverOverComputersSection();
-        Assert.assertEquals(shopHomepage.desktopsCategory.getText(), "Desktops", "Category name is not correct");
-        Assert.assertEquals(shopHomepage.notebooksCategory.getText(), "Notebooks", "Category name is not correct");
-        Assert.assertEquals(shopHomepage.accessoriesCategory.getText(), "Accessories", "Category name is not correct");
+        Assert.assertEquals(shopHomepage.getCategoryDesktopName(), "Desktops", "Category name is not correct");
+        Assert.assertEquals(shopHomepage.getCategoryNotebookName(), "Notebooks", "Category name is not correct");
+        Assert.assertEquals(shopHomepage.getCategoryAccessoriesName(), "Accessories", "Category name is not correct");
     }
 
     @Test(description = "4. Verify that allows sorting items (different options)")
@@ -129,7 +130,7 @@ public class Task2 extends TestBaseUI {
                 .goToCart();
         cartPage.selectRemoveCheckbox()
                 .updateCart();
-        Assert.assertEquals(cartPage.emptyCartMessage.getText(), "Your Shopping Cart is empty!", "Missing empty cart message");
+        Assert.assertEquals(cartPage.getEmptyCartMessage(), ConfigReader.getProperty("ShopEmptyShoppingCartMessage"), "Missing empty cart message");
         Assert.assertEquals(cartPage.getNumberOfAddedItemsCart(), 0, "Product was not deleted from the cart");
     }
 
@@ -142,8 +143,8 @@ public class Task2 extends TestBaseUI {
         CheckoutPage checkoutPage = new CheckoutPage(driver);
         shopHomepage.openShopHomepage()
                 .goToLoginForm();
-        loginForm.enterEmail("test@qwwwsdfasdfd.com")
-                .enterPassword("asdasd")
+        loginForm.enterEmail(ConfigReader.getProperty("ShopLoginEmail"))
+                .enterPassword(ConfigReader.getProperty("ShopLoginPassword"))
                 .loginToShop();
         shopHomepage.goToShoesCategory();
         shoesCategoryPage.selectProductByNumber(1)
@@ -157,6 +158,6 @@ public class Task2 extends TestBaseUI {
                 .savePaymentMethod()
                 .savePaymentInfo()
                 .confirmOrder();
-        Assert.assertEquals(checkoutPage.orderConfirmationMessage.getText(), "Your order has been successfully processed!", "Order message is not correct");
+        Assert.assertEquals(checkoutPage.getOrderConfirmationMessage(), ConfigReader.getProperty("ShopOrderConfirmationMessage"), "Order message is not correct");
     }
 }

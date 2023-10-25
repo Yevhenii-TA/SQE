@@ -1,5 +1,6 @@
 package baseTest;
 
+import org.example.ConfigReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,6 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
 
+import java.io.File;
 import java.util.HashMap;
 
 
@@ -20,18 +22,20 @@ public class TestBaseUI {
     public void browserInitialization(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
             ChromeOptions chromeOptions = new ChromeOptions();
-            String downloadFolder = "/Users/Yevhenii_Ivanenko/Downloads";
+            String downloadFolder = ConfigReader.getProperty("DownloadFolder");
+            String absolutePath = System.getProperty("user.dir") + File.separator + downloadFolder;
             HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
             chromePrefs.put("profile.default_content_settings.popups", 0);
-            chromePrefs.put("download.default_directory", downloadFolder);
+            chromePrefs.put("download.default_directory", absolutePath);
             chromeOptions.setExperimentalOption("prefs", chromePrefs);
             driver = new ChromeDriver(chromeOptions);
         } else if (browserName.equalsIgnoreCase("firefox")) {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
-            String downloadFolder = "/Users/Yevhenii_Ivanenko/Downloads";
+            String downloadFolder = ConfigReader.getProperty("DownloadFolder");
+            String absolutePath = System.getProperty("user.dir") + File.separator + downloadFolder;
             FirefoxProfile firefoxProfile = new FirefoxProfile();
             firefoxProfile.setPreference("browser.download.folderList", 2);
-            firefoxProfile.setPreference("browser.download.dir", downloadFolder);
+            firefoxProfile.setPreference("browser.download.dir", absolutePath);
             firefoxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
             firefoxOptions.setProfile(firefoxProfile);
             driver = new FirefoxDriver(firefoxOptions);

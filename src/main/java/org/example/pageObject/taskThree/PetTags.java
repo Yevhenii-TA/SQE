@@ -1,23 +1,21 @@
-package org.example.taskThree.PetRequest;
+package org.example.pageObject.taskThree;
 
 public class PetTags {
     private long id;
     private String name;
     public PetTags() {}
-    public PetTags(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
     public long getId() {
         return id;
     }
-    public void setId(long id) {
+    public PetTags setId(long id) {
         this.id = id;
+        return this;
     }
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public PetTags setName(String name) {
         this.name = name;
+        return this;
     }
 }

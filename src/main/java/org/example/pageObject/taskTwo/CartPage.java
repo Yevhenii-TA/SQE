@@ -1,6 +1,6 @@
-package org.example.taskTwoPageObject;
+package org.example.pageObject.taskTwo;
 
-import org.example.basePageObject.BasePageObjectClass;
+import org.example.BasePageObjectClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,25 +20,15 @@ public class CartPage extends BasePageObjectClass {
     @FindBy(xpath = "//*[@name='updatecart']")
     private WebElement updateCartButton;
     @FindBy(xpath = "//*[@class='order-summary-content']")
-    public WebElement emptyCartMessage;
+    private WebElement emptyCartMessage;
     @FindBy(xpath = "//*[@id='termsofservice']")
     private WebElement termsOfServiceCheckbox;
     @FindBy(xpath = "//*[@id='checkout']")
     private WebElement checkoutButton;
     //endregion
     public int getNumberOfAddedItemsCart() {
-        int numberOfItems = 0;
-        try {
-            List<WebElement> numberOfItemsInCart = driver.findElements(By.xpath("//*[@class='cart-item-row']"));
-            if (numberOfItemsInCart.size() >= 1) {
-                numberOfItems = numberOfItemsInCart.size();
-            } else {
-                numberOfItems = 0;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return numberOfItems;
+        List<WebElement> numberOfItemsInCart = driver.findElements(By.xpath("//*[@class='cart-item-row']"));
+        return numberOfItemsInCart.size();
     }
     public CartPage selectRemoveCheckbox() {
         removeCheckbox.click();
@@ -54,7 +44,10 @@ public class CartPage extends BasePageObjectClass {
     }
     public CartPage proceedToCheckout() {
         checkoutButton.click();
-        waitPageIsLoaded(3);
+        waitPageLoaded();
         return this;
+    }
+    public String getEmptyCartMessage() {
+        return emptyCartMessage.getText();
     }
 }

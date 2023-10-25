@@ -1,6 +1,6 @@
-package org.example.taskTwoPageObject;
+package org.example.pageObject.taskTwo;
 
-import org.example.basePageObject.BasePageObjectClass;
+import org.example.BasePageObjectClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,7 +18,6 @@ public class WishlistPage extends BasePageObjectClass {
     //endregion
     public int getNumberOfAddedItemsWishlist() {
         List<WebElement> numberOfItemsInWishlist = driver.findElements(By.xpath("//*[@class='cart-item-row']"));
-        int numberOfItems = numberOfItemsInWishlist.size();
-        return numberOfItems;
+        return numberOfItemsInWishlist.size();
     }
 }
