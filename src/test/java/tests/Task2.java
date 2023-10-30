@@ -22,13 +22,13 @@ public class Task2 extends TestBaseUI {
         shopHomepage.openShopHomepage()
                 .goToRegistrationForm();
         registrationForm.selectGender("male")
-                .enterFirstName(ConfigReader.getProperty("ShopFirstName"))
-                .enterLastName(ConfigReader.getProperty("ShopLastName"))
-                .enterEmail(ConfigReader.getProperty("ShopEmail"))
-                .enterPassword(ConfigReader.getProperty("ShopPassword"))
-                .enterConfirmPassword(ConfigReader.getProperty("ShopPassword"))
+                .enterFirstName(ConfigReader.getInstance().getProperty("ShopFirstName"))
+                .enterLastName(ConfigReader.getInstance().getProperty("ShopLastName"))
+                .enterEmail(ConfigReader.getInstance().getProperty("ShopEmail"))
+                .enterPassword(ConfigReader.getInstance().getProperty("ShopPassword"))
+                .enterConfirmPassword(ConfigReader.getInstance().getProperty("ShopPassword"))
                 .registerAccount();
-        Assert.assertEquals(registrationForm.getRegistrationConfirmationMessage(), ConfigReader.getProperty("RegistrationConfirmationMessage"), "Registration was not successful");
+        Assert.assertEquals(registrationForm.getRegistrationConfirmationMessage(), ConfigReader.getInstance().getProperty("RegistrationConfirmationMessage"), "Registration was not successful");
     }
 
     @Test(description = "2. Verify that allows login as a User")
@@ -37,10 +37,10 @@ public class Task2 extends TestBaseUI {
         LoginForm loginForm = new LoginForm(driver);
         shopHomepage.openShopHomepage()
                 .goToLoginForm();
-        loginForm.enterEmail(ConfigReader.getProperty("ShopLoginEmail"))
-                .enterPassword(ConfigReader.getProperty("ShopLoginPassword"))
+        loginForm.enterEmail(ConfigReader.getInstance().getProperty("ShopLoginEmail"))
+                .enterPassword(ConfigReader.getInstance().getProperty("ShopLoginPassword"))
                 .loginToShop();
-        Assert.assertEquals(shopHomepage.getLoggedInEmail(), ConfigReader.getProperty("ShopLoginEmail"), "Login was not successful!");
+        Assert.assertEquals(shopHomepage.getLoggedInEmail(), ConfigReader.getInstance().getProperty("ShopLoginEmail"), "Login was not successful!");
     }
 
     @Test(description = "3. Verify that ‘Computers’ group has 3 sub-groups with correct names")
@@ -130,7 +130,7 @@ public class Task2 extends TestBaseUI {
                 .goToCart();
         cartPage.selectRemoveCheckbox()
                 .updateCart();
-        Assert.assertEquals(cartPage.getEmptyCartMessage(), ConfigReader.getProperty("ShopEmptyShoppingCartMessage"), "Missing empty cart message");
+        Assert.assertEquals(cartPage.getEmptyCartMessage(), ConfigReader.getInstance().getProperty("ShopEmptyShoppingCartMessage"), "Missing empty cart message");
         Assert.assertEquals(cartPage.getNumberOfAddedItemsCart(), 0, "Product was not deleted from the cart");
     }
 
@@ -143,8 +143,8 @@ public class Task2 extends TestBaseUI {
         CheckoutPage checkoutPage = new CheckoutPage(driver);
         shopHomepage.openShopHomepage()
                 .goToLoginForm();
-        loginForm.enterEmail(ConfigReader.getProperty("ShopLoginEmail"))
-                .enterPassword(ConfigReader.getProperty("ShopLoginPassword"))
+        loginForm.enterEmail(ConfigReader.getInstance().getProperty("ShopLoginEmail"))
+                .enterPassword(ConfigReader.getInstance().getProperty("ShopLoginPassword"))
                 .loginToShop();
         shopHomepage.goToShoesCategory();
         shoesCategoryPage.selectProductByNumber(1)
@@ -158,6 +158,6 @@ public class Task2 extends TestBaseUI {
                 .savePaymentMethod()
                 .savePaymentInfo()
                 .confirmOrder();
-        Assert.assertEquals(checkoutPage.getOrderConfirmationMessage(), ConfigReader.getProperty("ShopOrderConfirmationMessage"), "Order message is not correct");
+        Assert.assertEquals(checkoutPage.getOrderConfirmationMessage(), ConfigReader.getInstance().getProperty("ShopOrderConfirmationMessage"), "Order message is not correct");
     }
 }

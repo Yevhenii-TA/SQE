@@ -34,26 +34,27 @@ public class Task3 extends TestBaseAPI {
         Response response = RestAssured.given().log().all()
                 .contentType("application/json")
                 .accept("application/json")
-                .body(requestBody).post(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("USER_ENDPOINT"));
+                .body(requestBody).post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("USER_ENDPOINT"));
 
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.body().jsonPath().get("message"), user.getId().toString());
 
         response = RestAssured.given().log().all()
                 .accept("application/json")
-                .get(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("USER_ENDPOINT") + "/" + user.getUsername());
+                .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("USER_ENDPOINT") + "/" + user.getUsername());
         Assert.assertEquals(response.getBody().asString(), requestBody);
     }
 
     @Test(description = "2. Verify that allows login as a User")
     public void loginUser() {
         User user = new User();
-        user.setUsername(ConfigReader.getProperty("ApiUserLogin"))
-                .setPassword(ConfigReader.getProperty("ApiUserPassword"));
+        user.setUsername(ConfigReader.getInstance().getProperty("ApiUserLogin"))
+                .setPassword(ConfigReader.getInstance().getProperty("ApiUserPassword"));
 
         Response response = RestAssured.given().log().all()
+                .queryParam("username", user.getUsername(), "password", user.getPassword())
                 .accept("application/json")
-                .get(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("LOGIN_USER_ENDPOINT") + "?username=" + user.getUsername() + "&password=" + user.getPassword());
+                .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LOGIN_USER_ENDPOINT"));
 
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.getBody().jsonPath().get("message").toString().contains("logged in user session"), true);
@@ -91,7 +92,7 @@ public class Task3 extends TestBaseAPI {
                 .contentType("application/json")
                 .accept("application/json")
                 .body(requestBody)
-                .post(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("LIST_OF_USERS"));
+                .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LIST_OF_USERS"));
 
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.getBody().jsonPath().get("message").toString(), "ok");
@@ -100,21 +101,21 @@ public class Task3 extends TestBaseAPI {
     @Test(description = "4. Verify that allows Log out User")
     public void logoutUser() throws JsonProcessingException {
         User user = new User();
-        user.setUsername(ConfigReader.getProperty("ApiUserLogin"))
-                .setPassword(ConfigReader.getProperty("ApiUserPassword"));
+        user.setUsername(ConfigReader.getInstance().getProperty("ApiUserLogin"))
+                .setPassword(ConfigReader.getInstance().getProperty("ApiUserPassword"));
 
         String requestBody = convertToJson(user);
 
         Response response = RestAssured.given().log().all()
                 .accept("application/json")
                 .body(requestBody)
-                .get(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("LOGIN_USER_ENDPOINT") + "?username=" + user.getUsername() + "&password=" + user.getPassword());
+                .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LOGIN_USER_ENDPOINT") + "?username=" + user.getUsername() + "&password=" + user.getPassword());
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.getBody().jsonPath().get("message").toString().contains("logged in user session"), true);
 
         response = RestAssured.given().log().all()
                 .accept("application/json")
-                .get(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("LOGOUT_USER_ENDPOINT"));
+                .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LOGOUT_USER_ENDPOINT"));
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.getBody().jsonPath().get("message").toString(), "ok");
     }
@@ -140,7 +141,7 @@ public class Task3 extends TestBaseAPI {
                 .contentType("application/json")
                 .accept("application/json")
                 .body(requestBody)
-                .post(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT"));
+                .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.getBody().asString(), requestBody);
@@ -168,7 +169,7 @@ public class Task3 extends TestBaseAPI {
                 .contentType("application/json")
                 .accept("application/json")
                 .body(requestBodyOriginal)
-                .post(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT"));
+                .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
         PetRequest petRequestNew = new PetRequest()
                 .setId(63)
@@ -183,7 +184,7 @@ public class Task3 extends TestBaseAPI {
                 .contentType("application/json")
                 .accept("application/json")
                 .body(requestBodyNew)
-                .put(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT"));
+                .put(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
         Assert.assertEquals(response.getBody().asString(), requestBodyNew);
     }
@@ -208,7 +209,7 @@ public class Task3 extends TestBaseAPI {
                 .contentType("application/json")
                 .accept("application/json")
                 .body(requestBodyOriginal)
-                .post(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT"));
+                .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
         PetRequest petRequestNew = new PetRequest().setId(63)
                 .setPetCategory(petCategory)
@@ -222,7 +223,7 @@ public class Task3 extends TestBaseAPI {
                 .contentType("application/json")
                 .accept("application/json")
                 .body(requestBodyNew)
-                .put(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT"));
+                .put(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
         Assert.assertEquals(response.getBody().asString(), requestBodyNew);
     }
@@ -248,18 +249,18 @@ public class Task3 extends TestBaseAPI {
                 .contentType("application/json")
                 .accept("application/json")
                 .body(requestBody)
-                .post(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT"));
+                .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
         Assert.assertEquals(responseCreate.getBody().asString(), requestBody);
 
         Response responseDelete = RestAssured.given()
                 .accept("application/json")
                 .body(requestBody)
-                .delete(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT") + "/" + petRequest.getId());
+                .delete(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT") + "/" + petRequest.getId());
         Assert.assertEquals(responseDelete.getStatusCode(), 200);
 
         Response responseCheck = RestAssured.given()
                 .accept("application/json")
-                .get(ConfigReader.getProperty("BASE_API_URL") + ConfigReader.getProperty("PET_ENDPOINT") + "/" + petRequest.getId());
+                .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT") + "/" + petRequest.getId());
         Assert.assertEquals(responseCheck.getStatusCode(), 404);
         Assert.assertEquals(responseCheck.body().jsonPath().get("message"), "Pet not found", "Pet was not deleted");
     }

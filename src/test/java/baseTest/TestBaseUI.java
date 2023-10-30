@@ -22,7 +22,7 @@ public class TestBaseUI {
     public void browserInitialization(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
             ChromeOptions chromeOptions = new ChromeOptions();
-            String downloadFolder = ConfigReader.getProperty("DownloadFolder");
+            String downloadFolder = ConfigReader.getInstance().getProperty("DownloadFolder");
             String absolutePath = System.getProperty("user.dir") + File.separator + downloadFolder;
             HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
             chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -31,7 +31,7 @@ public class TestBaseUI {
             driver = new ChromeDriver(chromeOptions);
         } else if (browserName.equalsIgnoreCase("firefox")) {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
-            String downloadFolder = ConfigReader.getProperty("DownloadFolder");
+            String downloadFolder = ConfigReader.getInstance().getProperty("DownloadFolder");
             String absolutePath = System.getProperty("user.dir") + File.separator + downloadFolder;
             FirefoxProfile firefoxProfile = new FirefoxProfile();
             firefoxProfile.setPreference("browser.download.folderList", 2);

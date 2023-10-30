@@ -32,7 +32,7 @@ public class ShopHomepage extends BasePageObjectClass {
     //endregion
 
     public ShopHomepage openShopHomepage() {
-        driver.get(ConfigReader.getProperty("ShopHomePage"));
+        driver.get(ConfigReader.getInstance().getProperty("ShopHomePage"));
         waitPageLoaded();
         return this;
     }

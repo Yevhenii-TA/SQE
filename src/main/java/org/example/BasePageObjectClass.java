@@ -1,7 +1,5 @@
 package org.example;
 
-import org.example.pageObject.taskOne.ContactUsPage;
-import org.example.pageObject.taskOne.LandingPage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,7 +21,7 @@ public class BasePageObjectClass {
     protected Select select;
     public BasePageObjectClass(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(ConfigReader.getProperty("timeout"))));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(ConfigReader.getInstance().getProperty("timeout"))));
         this.js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
@@ -36,8 +34,8 @@ public class BasePageObjectClass {
         return this;
     }
     public boolean checkDownloadedFileName(String fileName) {
-        File downloadedFile = new File(ConfigReader.getProperty("DownloadFolder") + "/" + fileName);
-        File[] files = new File(ConfigReader.getProperty("DownloadFolder")).listFiles();
+        File downloadedFile = new File(ConfigReader.getInstance().getProperty("DownloadFolder") + "/" + fileName);
+        File[] files = new File(ConfigReader.getInstance().getProperty("DownloadFolder")).listFiles();
         for (File file : files) {
             if (file.getName().equals(fileName)) {
                 downloadedFile = file;
@@ -47,10 +45,10 @@ public class BasePageObjectClass {
         return downloadedFile.exists();
     }
     public boolean waitFileIsDownloaded(String fileName) throws InterruptedException {
-        File downloadDirectory = new File(ConfigReader.getProperty("DownloadFolder"));
+        File downloadDirectory = new File(ConfigReader.getInstance().getProperty("DownloadFolder"));
         File[] files;
 
-        for (int i = 0; i < Integer.valueOf(ConfigReader.getProperty("timeout")) * 2; i++) {
+        for (int i = 0; i < Integer.valueOf(ConfigReader.getInstance().getProperty("timeout")) * 2; i++) {
             files = downloadDirectory.listFiles();
             if (files != null) {
                 for (File file : files) {

@@ -34,12 +34,12 @@ public class ContactUsPage extends BasePageObjectClass
     //endregion
 
     public ContactUsPage openContactUsPage() {
-        driver.get(ConfigReader.getProperty("EpamContactUs"));
+        driver.get(ConfigReader.getInstance().getProperty("EpamContactUs"));
         waitPageLoaded();
         return this;
     }
     public ContactUsPage openAboutUsPage() {
-        driver.get(ConfigReader.getProperty("EpamAboutUs"));
+        driver.get(ConfigReader.getInstance().getProperty("EpamAboutUs"));
         waitPageLoaded();
         return this;
     }

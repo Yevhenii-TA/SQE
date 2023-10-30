@@ -47,7 +47,7 @@ public class LandingPage extends BasePageObjectClass {
     //endregion
 
     public LandingPage openHomePage() {
-        driver.get(ConfigReader.getProperty("EpamHomePage"));
+        driver.get(ConfigReader.getInstance().getProperty("EpamHomePage"));
         waitPageLoaded();
         return this;
     }

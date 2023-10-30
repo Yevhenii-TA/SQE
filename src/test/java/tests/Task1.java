@@ -110,8 +110,8 @@ public class Task1 extends TestBaseUI {
         ContactUsPage contactUsPage = new ContactUsPage(driver);
         contactUsPage.openAboutUsPage()
                 .downloadReport();
-        boolean isFileDownloaded = contactUsPage.waitFileIsDownloaded("EPAM_Corporate_Overview_2023.pdf");
-        boolean isFileNameCorrect = contactUsPage.checkDownloadedFileName("EPAM_Corporate_Overview_2023.pdf");
+        boolean isFileDownloaded = contactUsPage.waitFileIsDownloaded("EPAM_Corporate_Overview_Q3_october.pdf");
+        boolean isFileNameCorrect = contactUsPage.checkDownloadedFileName("EPAM_Corporate_Overview_Q3_october.pdf");
         Assert.assertTrue(isFileDownloaded, "File was not downloaded");
         Assert.assertTrue(isFileNameCorrect, "Downloaded file name is not correct");
     }
