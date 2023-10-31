@@ -36,13 +36,13 @@ public class Task3 extends TestBaseAPI {
                 .accept("application/json")
                 .body(requestBody).post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("USER_ENDPOINT"));
 
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(response.body().jsonPath().get("message"), user.getId().toString());
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is not correct");
+        Assert.assertEquals(response.body().jsonPath().get("message"), user.getId().toString(), "Users ID was is not correct in response");
 
         response = RestAssured.given().log().all()
                 .accept("application/json")
                 .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("USER_ENDPOINT") + "/" + user.getUsername());
-        Assert.assertEquals(response.getBody().asString(), requestBody);
+        Assert.assertEquals(response.getBody().asString(), requestBody, "Response body has difference in comparison with request body");
     }
 
     @Test(description = "2. Verify that allows login as a User")
@@ -56,8 +56,8 @@ public class Task3 extends TestBaseAPI {
                 .accept("application/json")
                 .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LOGIN_USER_ENDPOINT"));
 
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(response.getBody().jsonPath().get("message").toString().contains("logged in user session"), true);
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is not correct");
+        Assert.assertEquals(response.getBody().jsonPath().get("message").toString().contains("logged in user session"), true, "User was not logged in");
     }
 
     @Test(description = "3. Verify that allows creating the list of Users")
@@ -94,8 +94,8 @@ public class Task3 extends TestBaseAPI {
                 .body(requestBody)
                 .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LIST_OF_USERS"));
 
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(response.getBody().jsonPath().get("message").toString(), "ok");
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is not correct");
+        Assert.assertEquals(response.getBody().jsonPath().get("message").toString(), "ok", "Response message is not correct or Users were not created");
     }
 
     @Test(description = "4. Verify that allows Log out User")
@@ -110,14 +110,14 @@ public class Task3 extends TestBaseAPI {
                 .accept("application/json")
                 .body(requestBody)
                 .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LOGIN_USER_ENDPOINT") + "?username=" + user.getUsername() + "&password=" + user.getPassword());
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(response.getBody().jsonPath().get("message").toString().contains("logged in user session"), true);
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is not correct");
+        Assert.assertEquals(response.getBody().jsonPath().get("message").toString().contains("logged in user session"), true, "User was not logged in");
 
         response = RestAssured.given().log().all()
                 .accept("application/json")
                 .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("LOGOUT_USER_ENDPOINT"));
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(response.getBody().jsonPath().get("message").toString(), "ok");
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is not correct");
+        Assert.assertEquals(response.getBody().jsonPath().get("message").toString(), "ok", "Response message is not correct");
     }
 
     @Test(description = "5. Verify that allows adding a new Pet")
@@ -143,8 +143,8 @@ public class Task3 extends TestBaseAPI {
                 .body(requestBody)
                 .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
-        Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(response.getBody().asString(), requestBody);
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is not correct");
+        Assert.assertEquals(response.getBody().asString(), requestBody, "Response body has differences in comparison to request body");
     }
 
     @Test(description = "6. Verify that allows updating Pet’s image")
@@ -186,7 +186,7 @@ public class Task3 extends TestBaseAPI {
                 .body(requestBodyNew)
                 .put(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
-        Assert.assertEquals(response.getBody().asString(), requestBodyNew);
+        Assert.assertEquals(response.getBody().asString(), requestBodyNew, "Response body is not updated");
     }
 
     @Test(description = "7. Verify that allows updating Pet’s name and status")
@@ -225,7 +225,7 @@ public class Task3 extends TestBaseAPI {
                 .body(requestBodyNew)
                 .put(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
 
-        Assert.assertEquals(response.getBody().asString(), requestBodyNew);
+        Assert.assertEquals(response.getBody().asString(), requestBodyNew, "Response body is not updated");
     }
 
     @Test(description = "8. Verify that allows deleting Pet ")
@@ -250,18 +250,18 @@ public class Task3 extends TestBaseAPI {
                 .accept("application/json")
                 .body(requestBody)
                 .post(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT"));
-        Assert.assertEquals(responseCreate.getBody().asString(), requestBody);
+        Assert.assertEquals(responseCreate.getBody().asString(), requestBody, "Response body is not correct in comparison with request body");
 
         Response responseDelete = RestAssured.given()
                 .accept("application/json")
                 .body(requestBody)
                 .delete(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT") + "/" + petRequest.getId());
-        Assert.assertEquals(responseDelete.getStatusCode(), 200);
+        Assert.assertEquals(responseDelete.getStatusCode(), 200, "Status code is not correct");
 
         Response responseCheck = RestAssured.given()
                 .accept("application/json")
                 .get(ConfigReader.getInstance().getProperty("BASE_API_URL") + ConfigReader.getInstance().getProperty("PET_ENDPOINT") + "/" + petRequest.getId());
-        Assert.assertEquals(responseCheck.getStatusCode(), 404);
+        Assert.assertEquals(responseCheck.getStatusCode(), 404, "Status code is not correct");
         Assert.assertEquals(responseCheck.body().jsonPath().get("message"), "Pet not found", "Pet was not deleted");
     }
 }
