@@ -1,6 +1,6 @@
-package org.example.taskTwoPageObject;
+package org.example.pageObject.taskTwo;
 
-import org.example.basePageObject.BasePageObjectClass;
+import org.example.BasePageObjectClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

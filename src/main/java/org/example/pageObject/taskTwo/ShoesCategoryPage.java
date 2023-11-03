@@ -1,6 +1,6 @@
-package org.example.taskTwoPageObject;
+package org.example.pageObject.taskTwo;
 
-import org.example.basePageObject.BasePageObjectClass;
+import org.example.BasePageObjectClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,8 +41,7 @@ public class ShoesCategoryPage extends BasePageObjectClass {
 
     public ShoesCategoryPage selectNumberOfItems(String number) {
         itemsSelector.click();
-        performSelectAction(itemsSelector).selectByVisibleText(number);
-        waitPageIsLoaded(3);
+        select.selectByVisibleText(number);
         return this;
     }
     public int getNumberOfDisplayedProducts() {
@@ -54,27 +53,27 @@ public class ShoesCategoryPage extends BasePageObjectClass {
     }
     public ShoesCategoryPage goToWishlist() {
         goToWishlistButton.click();
-        waitPageIsLoaded(3);
+        waitPageLoaded();
         return this;
     }
     public ShoesCategoryPage goToCart() {
         goToCartButton.click();
-        waitPageIsLoaded(3);
+        waitPageLoaded();
         return this;
     }
     public int getWishlistCounter() {
-        String removedSymbols = getCounterOfAddedItemsWishlist.getText();
-        removedSymbols = removedSymbols.replaceAll("\\D+", "");
-        return Integer.valueOf(removedSymbols);
+        String numberWithoutSymbols = getCounterOfAddedItemsWishlist.getText();
+        numberWithoutSymbols = numberWithoutSymbols.replaceAll("\\D+", "");
+        return Integer.valueOf(numberWithoutSymbols);
     }
     public int getCartCounter() {
-        String removedSymbols = getCounterOfAddedItemsCart.getText();
-        removedSymbols = removedSymbols.replaceAll("\\D+", "");
-        return Integer.valueOf(removedSymbols);
+        String numberWithoutSymbols = getCounterOfAddedItemsCart.getText();
+        numberWithoutSymbols = numberWithoutSymbols.replaceAll("\\D+", "");
+        return Integer.valueOf(numberWithoutSymbols);
     }
     public ShoesCategoryPage selectProductByNumber(int productNumber) {
         driver.findElement(By.xpath("(//*[@class='item-box']//h2/a)[" + productNumber + "]")).click();
-        waitPageIsLoaded(3);
+        waitPageLoaded();
         return this;
     }
     public ShoesCategoryPage addProductToWishlist() {
@@ -125,26 +124,22 @@ public class ShoesCategoryPage extends BasePageObjectClass {
     }
     public ShoesCategoryPage selectSortingByNameASC() {
         sortingSelector.click();
-        performSelectAction(sortingSelector).selectByVisibleText("Name: A to Z");
-        waitPageIsLoaded(3);
+        select.selectByVisibleText("Name: A to Z");
         return this;
     }
     public ShoesCategoryPage selectSortingByNameDESC() {
         sortingSelector.click();
-        performSelectAction(sortingSelector).selectByVisibleText("Name: Z to A");
-        waitPageIsLoaded(3);
+        select.selectByVisibleText("Name: Z to A");
         return this;
     }
     public ShoesCategoryPage selectSortingByPriceToHigh() {
         sortingSelector.click();
-        performSelectAction(sortingSelector).selectByVisibleText("Price: Low to High");
-        waitPageIsLoaded(3);
+        select.selectByVisibleText("Price: Low to High");
         return this;
     }
     public ShoesCategoryPage selectSortingByPriceToLow() {
         sortingSelector.click();
-        performSelectAction(sortingSelector).selectByVisibleText("Price: High to Low");
-        waitPageIsLoaded(3);
+        select.selectByVisibleText("Price: High to Low");
         return this;
     }
 }

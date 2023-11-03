@@ -1,10 +1,9 @@
-package org.example.taskTwoPageObject;
+package org.example.pageObject.taskTwo;
 
-import org.example.basePageObject.BasePageObjectClass;
+import org.example.BasePageObjectClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckoutPage extends BasePageObjectClass {
     public CheckoutPage(WebDriver driver) {
@@ -24,36 +23,39 @@ public class CheckoutPage extends BasePageObjectClass {
     @FindBy(xpath = "//*[@onclick='ConfirmOrder.save()']")
     private WebElement confirmOrderButton;
     @FindBy(xpath = "//*[@class='section order-completed']//strong")
-    public WebElement orderConfirmationMessage;
+    private WebElement orderConfirmationMessage;
     //endregion
     public CheckoutPage saveBillingAddress() {
         saveBillingAddressButton.click();
-        waitButtonClickable(2, saveShippingAddressButton);
+        waitButtonClickable(saveShippingAddressButton);
         return this;
     }
     public CheckoutPage saveShippingAddress() {
+        waitButtonClickable(saveShippingAddressButton);
         saveShippingAddressButton.click();
-        waitButtonClickable(2, saveShippingMethodButton);
         return this;
     }
     public CheckoutPage saveShippingMethod() {
+        waitButtonClickable(saveShippingMethodButton);
         saveShippingMethodButton.click();
-        waitButtonClickable(2, savePaymentMethodButton);
         return this;
     }
     public CheckoutPage savePaymentMethod() {
+        waitButtonClickable(savePaymentMethodButton);
         savePaymentMethodButton.click();
-        waitButtonClickable(2, savePaymentInfoButton);
         return this;
     }
     public CheckoutPage savePaymentInfo() {
+        waitButtonClickable(savePaymentInfoButton);
         savePaymentInfoButton.click();
-        waitButtonClickable(2, confirmOrderButton);
         return this;
     }
     public CheckoutPage confirmOrder() {
+        waitButtonClickable(confirmOrderButton);
         confirmOrderButton.click();
-        waitUntilElementVisible(4, orderConfirmationMessage);
         return this;
+    }
+    public String getOrderConfirmationMessage() {
+        return orderConfirmationMessage.getText();
     }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="MySuite">
+    <listeners>
+        <listener class-name="org.testng.reporters.EmailableReporter"/>
+    </listeners>
+    <test name="Task1">
+        <classes>
+            <class name="tests.Task1">
+                <methods>
+                    <include name="checkTitle"/>
+                    <include name="checkLightDarkModeToggle"/>
+                    <include name="checkLanguageToggle"/>
+                    <include name="checkPolicies"/>
+                    <include name="checkLocationSwitch"/>
+                    <include name="checkSearchFunction"/>
+                    <include name="checkValidations"/>
+                    <include name="checkLogoRedirect"/>
+                    <include name="checkDownload"/>
+                </methods>
+            </class>
+            <class name="tests.Task2"></class>
+            <class name="tests.Task3"></class>
+        </classes>
+    </test>
+</suite>

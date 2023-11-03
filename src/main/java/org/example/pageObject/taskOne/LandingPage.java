@@ -1,6 +1,6 @@
-package org.example.taskOnePageObject;
-
-import org.example.basePageObject.BasePageObjectClass;
+package org.example.pageObject.taskOne;
+import org.example.BasePageObjectClass;
+import org.example.ConfigReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +11,12 @@ import java.util.List;
 public class LandingPage extends BasePageObjectClass {
     public LandingPage(WebDriver driver) {
         super(driver);
+    }
+
+    public enum Language {
+        uk, // Ukrainian
+        en, // English
+        pl, // Polish
     }
 
     //region Selectors
@@ -24,22 +30,8 @@ public class LandingPage extends BasePageObjectClass {
     private WebElement headerOfSite;
     @FindBy(xpath = "//*[@class='header__controls']//button[contains(@class,'location-selector')]")
     private WebElement languageMenu;
-    @FindBy(xpath = "//a[@lang='uk' and not(contains(@class,'mobile'))]")
-    private WebElement languageUA;
     @FindBy(xpath = "//*[@class='location-selector__button']")
     private WebElement selectedLanguage;
-    @FindBy(xpath = "(//*[contains(@class,'policies')]//li[@class='links-item'])[1]")
-    public WebElement policiesInvestors;
-    @FindBy(xpath = "(//*[contains(@class,'policies')]//li[@class='links-item'])[2]")
-    public WebElement policiesOpenSource;
-    @FindBy(xpath = "(//*[contains(@class,'policies')]//li[@class='links-item'])[3]")
-    public WebElement policiesPrivacy;
-    @FindBy(xpath = "(//*[contains(@class,'policies')]//li[@class='links-item'])[4]")
-    public WebElement policiesCookie;
-    @FindBy(xpath = "(//*[contains(@class,'policies')]//li[@class='links-item'])[5]")
-    public WebElement policiesApplicant;
-    @FindBy(xpath = "(//*[contains(@class,'policies')]//li[@class='links-item'])[6]")
-    public WebElement policiesAccessibility;
     @FindBy(xpath = "//span[contains(@class,'search-icon')]")
     private WebElement searchIcon;
     @FindBy(xpath = "//*[@id='new_form_search']")
@@ -47,28 +39,21 @@ public class LandingPage extends BasePageObjectClass {
     @FindBy(xpath = "//*[@class='bth-text-layer']")
     private WebElement findButton;
     @FindBy(xpath = "//*[@class='search-results__items']")
-    public WebElement searchResults;
-    @FindBy(xpath = "//a[contains(text(),'AMERICAS')]")
-    public WebElement locationAmericas;
-    @FindBy(xpath = "//a[contains(text(),'EMEA')]")
-    public WebElement locationEmea;
-    @FindBy(xpath = "//a[contains(text(),'APAC')]")
-    public WebElement locationApac;
+    private WebElement searchResults;
     @FindBy(xpath = "//*[@class='js-tabs-controls']")
-    public WebElement locationSection;
+    private WebElement locationSection;
     @FindBy(xpath = "//*[contains(@class,'tabs-23__link')]")
     private WebElement getAllLocations;
     //endregion
 
     public LandingPage openHomePage() {
-        driver.get("https://epam.com");
-        waitPageIsLoaded(5);
+        driver.get(ConfigReader.getInstance().getProperty("EpamHomePage"));
+        waitPageLoaded();
         return this;
     }
     public LandingPage acceptCookies() {
-        waitButtonClickable(3, acceptCookies);
+        waitButtonClickable(acceptCookies);
         acceptCookies.click();
-        waitSeconds(2);
         return this;
     }
     public String getHomepageTitle() {
@@ -77,7 +62,6 @@ public class LandingPage extends BasePageObjectClass {
     }
     public LandingPage switchTheme() {
         themeSwitcher.click();
-        waitSeconds(2);
         return this;
     }
     public String getActiveTheme() {
@@ -91,17 +75,18 @@ public class LandingPage extends BasePageObjectClass {
     }
     public LandingPage expandLanguageMenu() {
         languageMenu.click();
-        waitSeconds(2);
         return this;
     }
-    public LandingPage selectUaLanguage() {
-        waitButtonClickable(3, languageUA);
-        languageUA.click();
+    public LandingPage selectLanguage(Language lang) {
+        WebElement languageSelector = driver.findElement(By.xpath("//a[contains(@class,'location-selector__link') and not(contains(@class,'mobile')) and @lang='" + lang + "']"));
+        waitButtonClickable(languageSelector);
+        languageSelector.click();
         return this;
     }
     public String checkPageLanguage() {
+        waitPageLoaded();
         String activeLanguage;
-        waitButtonClickable(5, selectedLanguage);
+        waitButtonClickable(selectedLanguage);
         if (headerOfSite.getAttribute("lang").equals("en")) {
             activeLanguage = "English";
         } else {
@@ -111,7 +96,7 @@ public class LandingPage extends BasePageObjectClass {
     }
     public LandingPage openSearch() {
         searchIcon.click();
-        waitButtonClickable(3, findButton);
+        waitButtonClickable(findButton);
         return this;
     }
     public LandingPage enterSearchString(String text) {
@@ -124,17 +109,11 @@ public class LandingPage extends BasePageObjectClass {
     }
     public String returnActiveLocation() {
         List<WebElement> locations = driver.findElements(By.xpath("//*[contains(@class,'tabs-23__link')]"));
-        String activeLocationName = "";
-        for (WebElement e : locations) {
-            try {
-                if (e.getAttribute("class").contains("active")) {
-                    activeLocationName = e.getText();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return activeLocationName;
+        return locations.stream()                                                               //create a stream of objects above
+                .filter(element -> element.getAttribute("class").contains("active"))      //filter elements with needed parameters
+                .findFirst()                                                                    //returns the first element in the stream for condition above
+                .map(WebElement::getText)                                                       //get the text value
+                .orElse("");                                                              //return empty string if object is empty
     }
     public LandingPage selectLocation(String locationName) {
         WebElement location = driver.findElement(By.xpath("//a[contains(text(),'" + locationName + "')]"));
@@ -145,11 +124,16 @@ public class LandingPage extends BasePageObjectClass {
         }
         return this;
     }
-    public LandingPage scrollToElementToCenter(WebElement element) {
-        String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
-                + "var elementTop = arguments[0].getBoundingClientRect().top;"
-                + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
-        jsExecutor().executeScript(scrollElementIntoMiddle, element);
+    public LandingPage goToLocations() {
+        scrollToElementToCenter(locationSection);
         return this;
     }
+    public boolean searchResultIsDisplayed() {
+        return searchResults.isDisplayed();
+    }
+    public String getPolicyTextByNumber(int linkNumber) {
+        List<WebElement> policies = driver.findElements(By.xpath("//*[contains(@class,'policies')]//li[@class='links-item']"));
+        return policies.get(linkNumber - 1).getText();
+    }
+
 }
