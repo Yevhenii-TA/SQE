@@ -1,14 +1,16 @@
 package tests;
 
 import baseTest.TestBaseUI;
+import com.epam.reportportal.testng.ReportPortalTestNGListener;
 import org.example.pageObject.taskOne.ContactUsPage;
 import org.example.pageObject.taskOne.LandingPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-
+@Listeners({ReportPortalTestNGListener.class})
 public class Task1 extends TestBaseUI {
     @BeforeMethod(alwaysRun = true)
     public void browserSetup() {

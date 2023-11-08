@@ -1,7 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="MySuite">
     <listeners>
-        <listener class-name="org.testng.reporters.EmailableReporter"/>
+        <!-- <listener class-name="org.testng.reporters.EmailableReporter"/> -->
+        <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
     </listeners>
     <test name="Task1">
         <classes>
